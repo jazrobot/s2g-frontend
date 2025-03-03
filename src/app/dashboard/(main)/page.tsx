@@ -42,11 +42,11 @@ interface BreakdownData {
 export default function Component() {
   // useStationStatus retorna un objeto { active, inactive } (totales)
   const { data: chartData, loading } = useStationStatus();
-  const [activeChart, setActiveChart] =
-    React.useState<keyof typeof chartConfig>("active");
+  const [activeChart, setActiveChart] = React.useState<"active" | "inactive">(
+    "active",
+  );
 
   // Data agregada (totales generales)
-  // Si chartData es null, se usan ceros
   const total = {
     active: chartData?.active ?? 0,
     inactive: chartData?.inactive ?? 0,
@@ -107,6 +107,8 @@ export default function Component() {
     );
   }
 
+  const statusKeys: Array<"active" | "inactive"> = ["active", "inactive"];
+
   return (
     <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
@@ -119,23 +121,21 @@ export default function Component() {
           </CardDescription>
         </div>
         <div className="flex items-center gap-2 border-l px-4 sm:border-t-0">
-          {(["active", "inactive"] as Array<keyof typeof chartConfig>).map(
-            (key) => (
-              <button
-                key={key}
-                onClick={() => setActiveChart(key)}
-                className={`flex flex-col items-center rounded-md px-3 py-2 ${activeChart === key ? "bg-muted" : "hover:bg-muted/50"}`}
-                data-active={activeChart === key}
-              >
-                <span className="text-xs text-muted-foreground">
-                  {chartConfig[key].label}
-                </span>
-                <span className="text-xl font-bold">
-                  {total[key].toLocaleString()}
-                </span>
-              </button>
-            ),
-          )}
+          {statusKeys.map((key) => (
+            <button
+              key={key}
+              onClick={() => setActiveChart(key)}
+              className={`flex flex-col items-center rounded-md px-3 py-2 ${activeChart === key ? "bg-muted" : "hover:bg-muted/50"}`}
+              data-active={activeChart === key}
+            >
+              <span className="text-xs text-muted-foreground">
+                {chartConfig[key].label}
+              </span>
+              <span className="text-xl font-bold">
+                {total[key].toLocaleString()}
+              </span>
+            </button>
+          ))}
         </div>
       </CardHeader>
       <CardContent className="p-6">
@@ -163,8 +163,8 @@ export default function Component() {
               />
               <ChartTooltip
                 content={({ active, payload }) => {
-                  if (active && payload?.length) {
-                    const data = payload[0].payload;
+                  if (active && payload?.[0]?.payload != null) {
+                    const data = payload[0].payload as BreakdownData;
                     return (
                       <ChartTooltipContent>
                         <div className="flex flex-col gap-1">
