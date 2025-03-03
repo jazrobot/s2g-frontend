@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - AUTH_SECRET=your_auth_secret_here
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+    restart: unless-stopped

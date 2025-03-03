@@ -1,29 +1,97 @@
-# Create T3 App
+# S2G Frontend
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
-## What's next? How do I make an app with this?
+## Installation and Setup
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+### Prerequisites
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+Before you begin, ensure you have the following installed on your system:
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/) (included with Docker Desktop for Windows and Mac)
+
+### Technologies Used
+
+This project is built with the following technologies:
 
 - [Next.js](https://nextjs.org)
 - [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
 - [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
 
-## Learn More
+## Running the Application
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### Environment Variables
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+Before running the application, you need to set up your environment variables:
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+1. Copy the example environment file to create a new `.env` file:
 
-## How do I deploy this?
+```bash
+cp .env.example .env
+```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+2. Edit the `.env` file and update the following variables:
+
+```
+AUTH_SECRET=your_secure_secret_here
+NEXT_PUBLIC_BACKEND_URL=http://localhost:8000  # URL to your backend API
+```
+
+### Option 1: Using Docker Compose (Recommended)
+
+The easiest way to run the application is using Docker Compose:
+
+1. Build and start the container:
+
+```bash
+docker-compose up -d
+```
+
+2. The application will be available at [http://localhost:3000](http://localhost:3000)
+
+3. To stop the application:
+
+```bash
+docker-compose down
+```
+
+### Option 2: Using Docker Directly
+
+You can also build and run the Docker container manually:
+
+1. Build the Docker image:
+
+```bash
+docker build -t s2g-frontend .
+```
+
+2. Run the container:
+
+```bash
+docker run -p 3000:3000 \
+  -e NODE_ENV=production \
+  -e AUTH_SECRET=your_secure_secret_here \
+  -e NEXT_PUBLIC_BACKEND_URL=http://localhost:8000 \
+  s2g-frontend
+```
+
+3. The application will be available at [http://localhost:3000](http://localhost:3000)
+
+## Development
+
+For local development without Docker, refer to these commands:
+
+```bash
+# Install dependencies
+pnpm install
+
+# Run development server
+pnpm dev
+
+# Build for production
+pnpm build
+
+# Start production server
+pnpm start
+```
