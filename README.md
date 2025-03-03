@@ -2,6 +2,17 @@
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
+## Getting Started
+
+### Cloning the Repository
+
+To get started with this project, first clone the repository to your local machine:
+
+```bash
+git clone https://github.com/jazrobot/s2g/s2g-frontend.git
+cd s2g-frontend
+```
+
 ## Installation and Setup
 
 ### Prerequisites
